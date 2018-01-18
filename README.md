@@ -12,7 +12,7 @@ Repozytorium zawiera materiały do laboratorium.
 * użyj przycisku Download w celu ściągnięcia zip-a całego repozytorium
 3. Jeżeli masz jakie uwagi stworz [New Issue][is] 
 
-##Przydatne
+## Przydatne
 
 **[Dodawanie klucza SSH w GitHub][ssh]**
 
