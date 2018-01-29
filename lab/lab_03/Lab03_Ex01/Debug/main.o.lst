@@ -1,0 +1,189 @@
+   1              	 .syntax unified
+   2              	 .cpu cortex-m4
+   3              	 .eabi_attribute 27,3
+   4              	 .fpu fpv4-sp-d16
+   5              	 .eabi_attribute 20,1
+   6              	 .eabi_attribute 21,1
+   7              	 .eabi_attribute 23,3
+   8              	 .eabi_attribute 24,1
+   9              	 .eabi_attribute 25,1
+  10              	 .eabi_attribute 26,1
+  11              	 .eabi_attribute 30,6
+  12              	 .eabi_attribute 34,1
+  13              	 .eabi_attribute 18,4
+  14              	 .thumb
+  15              	 .file "main.c"
+  16              	 .text
+  17              	.Ltext0:
+  18              	 .cfi_sections .debug_frame
+  19              	 .global g_duty
+  20              	 .section .data.g_duty,"aw",%progbits
+  21              	 .align 2
+  24              	g_duty:
+  25 0000 00004842 	 .word 1112014848
+  26              	 .section .text.main,"ax",%progbits
+  27              	 .align 2
+  28              	 .global main
+  29              	 .thumb
+  30              	 .thumb_func
+  32              	main:
+  33              	.LFB221:
+  34              	 .file 1 "../main.c"
+   1:../main.c     **** /*
+   2:../main.c     ****  * main.c
+   3:../main.c     ****  *
+   4:../main.c     ****  *  Created on: 2018 Jan 25 10:55:53
+   5:../main.c     ****  *  Author: Tomasz Osypinski
+   6:../main.c     ****  */
+   7:../main.c     **** 
+   8:../main.c     **** 
+   9:../main.c     **** 
+  10:../main.c     **** 
+  11:../main.c     **** #include <DAVE.h>                 //Declarations from DAVE Code Generation (includes SFR declaratio
+  12:../main.c     **** 
+  13:../main.c     **** /**
+  14:../main.c     **** 
+  15:../main.c     ****  * @brief main() - Application entry point
+  16:../main.c     ****  *
+  17:../main.c     ****  * <b>Details of function</b><br>
+  18:../main.c     ****  * This routine is the application entry point. It is invoked by the device startup code. It is res
+  19:../main.c     ****  * invoking the APP initialization dispatcher routine - DAVE_Init() and hosting the place-holder fo
+  20:../main.c     ****  * code.
+  21:../main.c     ****  */
+  22:../main.c     **** volatile float g_duty = 50.0f;
+  23:../main.c     **** 
+  24:../main.c     **** int main(void)
+  25:../main.c     **** {
+  35              	 .loc 1 25 0
+  36              	 .cfi_startproc
+  37              	 
+  38              	 
+  39 0000 80B5     	 push {r7,lr}
+  40              	.LCFI0:
+  41              	 .cfi_def_cfa_offset 8
+  42              	 .cfi_offset 7,-8
+  43              	 .cfi_offset 14,-4
+  44 0002 82B0     	 sub sp,sp,#8
+  45              	.LCFI1:
+  46              	 .cfi_def_cfa_offset 16
+  47 0004 00AF     	 add r7,sp,#0
+  48              	.LCFI2:
+  49              	 .cfi_def_cfa_register 7
+  26:../main.c     ****     DAVE_STATUS_t status;
+  27:../main.c     **** 
+  28:../main.c     ****     status = DAVE_Init(); /* Initialization of DAVE APPs  */
+  50              	 .loc 1 28 0
+  51 0006 FFF7FEFF 	 bl DAVE_Init
+  52 000a 0346     	 mov r3,r0
+  53 000c FB71     	 strb r3,[r7,#7]
+  29:../main.c     **** 
+  30:../main.c     ****     if(status != DAVE_STATUS_SUCCESS)
+  54              	 .loc 1 30 0
+  55 000e FB79     	 ldrb r3,[r7,#7]
+  56 0010 002B     	 cmp r3,#0
+  57 0012 00D0     	 beq .L2
+  58              	.L3:
+  31:../main.c     ****     {
+  32:../main.c     ****         /* Placeholder for error handler code. The while loop below can be replaced with an user er
+  33:../main.c     ****         XMC_DEBUG("DAVE APPs initialization failed\n");
+  34:../main.c     **** 
+  35:../main.c     ****         while(1U)
+  36:../main.c     ****         {
+  37:../main.c     **** 
+  38:../main.c     ****         }
+  59              	 .loc 1 38 0 discriminator 1
+  60 0014 FEE7     	 b .L3
+  61              	.L2:
+  39:../main.c     ****     }
+  40:../main.c     **** 
+  41:../main.c     ****     /* Placeholder for user application code. The while loop below can be replaced with user applic
+  42:../main.c     ****     while(1U)
+  43:../main.c     ****     {
+  44:../main.c     ****         if(g_duty > 100.0f)
+  62              	 .loc 1 44 0
+  63 0016 154B     	 ldr r3,.L11
+  64 0018 D3ED007A 	 flds s15,[r3]
+  65 001c 9FED147A 	 flds s14,.L11+4
+  66 0020 F4EEC77A 	 fcmpes s15,s14
+  67 0024 F1EE10FA 	 fmstat
+  68 0028 03DD     	 ble .L10
+  45:../main.c     ****         {
+  46:../main.c     ****             g_duty = 100.0f;
+  69              	 .loc 1 46 0
+  70 002a 104B     	 ldr r3,.L11
+  71 002c 114A     	 ldr r2,.L11+8
+  72 002e 1A60     	 str r2,[r3]
+  73 0030 0BE0     	 b .L6
+  74              	.L10:
+  47:../main.c     ****         }
+  48:../main.c     ****         else if(g_duty < 0.0f)
+  75              	 .loc 1 48 0
+  76 0032 0E4B     	 ldr r3,.L11
+  77 0034 D3ED007A 	 flds s15,[r3]
+  78 0038 F5EEC07A 	 fcmpezs s15
+  79 003c F1EE10FA 	 fmstat
+  80 0040 03D5     	 bpl .L6
+  49:../main.c     ****         {
+  50:../main.c     ****             g_duty = 0.0f;
+  81              	 .loc 1 50 0
+  82 0042 0A4B     	 ldr r3,.L11
+  83 0044 4FF00002 	 mov r2,#0
+  84 0048 1A60     	 str r2,[r3]
+  85              	.L6:
+  51:../main.c     ****         }
+  52:../main.c     ****         PWM_CCU8_SetDutyCycleSymmetric(&PWM_CCU8_0,
+  53:../main.c     ****                                        XMC_CCU8_SLICE_COMPARE_CHANNEL_1,
+  54:../main.c     ****                                        ((uint32_t)g_duty * PWM_CCU8_DUTY_SCALE));
+  86              	 .loc 1 54 0
+  87 004a 084B     	 ldr r3,.L11
+  88 004c D3ED007A 	 flds s15,[r3]
+  89 0050 FCEEE77A 	 ftouizs s15,s15
+  90 0054 17EE902A 	 fmrs r2,s15
+  52:../main.c     ****                                        XMC_CCU8_SLICE_COMPARE_CHANNEL_1,
+  91              	 .loc 1 52 0
+  92 0058 6423     	 movs r3,#100
+  93 005a 03FB02F3 	 mul r3,r3,r2
+  94 005e 0648     	 ldr r0,.L11+12
+  95 0060 0021     	 movs r1,#0
+  96 0062 1A46     	 mov r2,r3
+  97 0064 FFF7FEFF 	 bl PWM_CCU8_SetDutyCycleSymmetric
+  55:../main.c     ****     }
+  98              	 .loc 1 55 0
+  99 0068 D5E7     	 b .L2
+ 100              	.L12:
+ 101 006a 00BF     	 .align 2
+ 102              	.L11:
+ 103 006c 00000000 	 .word g_duty
+ 104 0070 0000C842 	 .word 1120403456
+ 105 0074 0000C842 	 .word 1120403456
+ 106 0078 00000000 	 .word PWM_CCU8_0
+ 107              	 .cfi_endproc
+ 108              	.LFE221:
+ 110              	 .text
+ 111              	.Letext0:
+ 112              	 .file 2 "c:\\davev4-64bit\\dave-4.3.2\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\machine\\_default_types.h"
+ 113              	 .file 3 "c:\\davev4-64bit\\dave-4.3.2\\eclipse\\arm-gcc-49\\arm-none-eabi\\include\\stdint.h"
+ 114              	 .file 4 "C:/Workspaces/DAVE-4.3-64Bit/tmp/Lab03_Ex01/Libraries/CMSIS/Infineon/XMC4700_series/Include/XMC4700.h"
+ 115              	 .file 5 "C:/Workspaces/DAVE-4.3-64Bit/tmp/Lab03_Ex01/Libraries/XMCLib/inc/xmc4_scu.h"
+ 116              	 .file 6 "C:/Workspaces/DAVE-4.3-64Bit/tmp/Lab03_Ex01/Libraries/XMCLib/inc/xmc_gpio.h"
+ 117              	 .file 7 "C:/Workspaces/DAVE-4.3-64Bit/tmp/Lab03_Ex01/Libraries/XMCLib/inc/xmc4_gpio.h"
+ 118              	 .file 8 "C:/Workspaces/DAVE-4.3-64Bit/tmp/Lab03_Ex01/Libraries/XMCLib/inc/xmc_ccu8.h"
+ 119              	 .file 9 "C:/Workspaces/DAVE-4.3-64Bit/tmp/Lab03_Ex01/Dave/Generated/GLOBAL_CCU8/global_ccu8.h"
+ 120              	 .file 10 "C:/Workspaces/DAVE-4.3-64Bit/tmp/Lab03_Ex01/Dave/Generated/PWM_CCU8/pwm_ccu8.h"
+ 121              	 .file 11 "C:/Workspaces/DAVE-4.3-64Bit/tmp/Lab03_Ex01/Dave/Generated/DAVE.h"
+ 122              	 .file 12 "C:/Workspaces/DAVE-4.3-64Bit/tmp/Lab03_Ex01/Libraries/CMSIS/Include/core_cm4.h"
+ 123              	 .file 13 "C:/Workspaces/DAVE-4.3-64Bit/tmp/Lab03_Ex01/Libraries/CMSIS/Infineon/XMC4700_series/Include/system_XMC4700.h"
+ 124              	 .file 14 "C:/Workspaces/DAVE-4.3-64Bit/tmp/Lab03_Ex01/Dave/Generated/PWM_CCU8/pwm_ccu8_extern.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+    {standard input}:24     .data.g_duty:00000000 g_duty
+    {standard input}:21     .data.g_duty:00000000 $d
+    {standard input}:27     .text.main:00000000 $t
+    {standard input}:32     .text.main:00000000 main
+    {standard input}:103    .text.main:0000006c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+DAVE_Init
+PWM_CCU8_SetDutyCycleSymmetric
+PWM_CCU8_0
