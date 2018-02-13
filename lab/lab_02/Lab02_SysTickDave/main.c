@@ -15,7 +15,10 @@
 */
 #define ONESEC (1000000UL)
 #define GET_TIMESTAMP (DWT->CYCCNT)
-#define CALC_DELT(t0, t1, delta) do{(t0 > t1) ? (delta = (t0 - t1)) : (delta = (t1 - t0));}while(0)
+#define CALC_DELT(t0, t1, delta) do{(t1 > t0) ?\
+                                    (delta = (t1 - t0)) :\
+                                    (delta = (0xFFFFFFFFUL - t0 + t1));\
+                                   }while(0)
 #define CALC_TIME_US(delta) ((float)delta * 0.006944444f)
 
 void Tick_EverySec(void *args);
